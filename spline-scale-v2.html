@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Spline Scale — 3D Custom Gifts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --cream:    #FFFBF5;
+  --paper:    #FFF5E4;
+  --ink:      #1A1208;
+  --warm-mid: #F5E6C8;
+  --yellow:   #FFD93D;
+  --orange:   #FF6B2B;
+  --red:      #FF3B5C;
+  --teal:     #00C2A8;
+  --purple:   #7B5EA7;
+  --steel:    #4A5568;
+  --border:   rgba(26,18,8,0.1);
+  --border-dark: rgba(26,18,8,0.2);
+  --muted:    #8A7A6A;
+  --muted2:   #6B5E4E;
+  --display:  'Unbounded', sans-serif;
+  --body:     'Plus Jakarta Sans', sans-serif;
+  --radius:   6px;
+  --radius-lg: 12px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: var(--cream);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--orange); border-radius: 2px; }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.9rem 2.5rem;
+  background: rgba(255,251,245,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 2px solid var(--ink);
+}
+.nav-logo { display: flex; flex-direction: column; gap: 1px; }
+.nav-logo-name {
+  font-family: var(--display);
+  font-size: 1rem; font-weight: 900;
+  letter-spacing: 0.05em; color: var(--ink);
+}
+.nav-logo-name span { color: var(--orange); }
+.nav-logo-tag {
+  font-size: 0.58rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+  font-weight: 500;
+}
+.nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+.nav-links a {
+  font-size: 0.78rem; letter-spacing: 0.06em; font-weight: 600;
+  color: var(--muted2); text-decoration: none; transition: color 0.2s;
+  text-transform: uppercase;
+}
+.nav-links a:hover { color: var(--orange); }
+.nav-cta {
+  font-family: var(--body); font-size: 0.75rem;
+  font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.55rem 1.35rem;
+  background: var(--orange); color: #fff;
+  border: 2px solid var(--ink); border-radius: var(--radius);
+  cursor: pointer; box-shadow: 3px 3px 0 var(--ink);
+  transition: all 0.15s;
+}
+.nav-cta:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--ink); }
+.nav-cta:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 var(--ink); }
+
+/* ── HERO ── */
+.hero {
+  background: var(--yellow);
+  border-bottom: 2px solid var(--ink);
+  padding: 4rem 2.5rem 3.5rem;
+  position: relative; overflow: hidden;
+  display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center;
+}
+/* Engineering grid overlay */
+.hero::before {
+  content:'';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(26,18,8,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,18,8,0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+/* Crosshair decoration */
+.hero::after {
+  content: '+';
+  position: absolute; bottom: 2rem; right: 3rem;
+  font-family: var(--display); font-size: 8rem; font-weight: 900;
+  color: rgba(26,18,8,0.06); line-height: 1;
+  pointer-events: none;
+}
+.hero-left { position: relative; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 700; color: var(--ink);
+  background: var(--orange); border: 2px solid var(--ink);
+  padding: 0.3rem 0.9rem; border-radius: 99px;
+  margin-bottom: 1.5rem;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+.hero-badge::before {
+  content:''; width:7px; height:7px; border-radius:50%;
+  background: var(--ink);
+  animation: blink 1.5s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+.hero-title {
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 7vw, 5rem);
+  font-weight: 900; line-height: 1.0;
+  letter-spacing: -0.02em; color: var(--ink);
+  margin-bottom: 1.25rem;
+}
+.hero-title .accent { color: var(--orange); display: block; }
+.hero-title .accent2 {
+  display: inline-block;
+  background: var(--ink); color: var(--yellow);
+  padding: 0 0.15em; border-radius: 4px;
+}
+.hero-sub {
+  font-size: 1rem; color: var(--muted2);
+  max-width: 460px; font-weight: 400;
+  line-height: 1.75; margin-bottom: 2rem;
+  font-style: italic;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-solid {
+  font-family: var(--body); font-size: 0.8rem;
+  font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.8rem 1.75rem;
+  background: var(--ink); color: var(--yellow);
+  border: 2px solid var(--ink); border-radius: var(--radius);
+  cursor: pointer; box-shadow: 4px 4px 0 rgba(26,18,8,0.2);
+  transition: all 0.15s; text-decoration: none; display: inline-block;
+}
+.btn-solid:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 rgba(26,18,8,0.2); }
+.btn-outline {
+  font-family: var(--body); font-size: 0.8rem;
+  font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.8rem 1.75rem;
+  background: transparent; color: var(--ink);
+  border: 2px solid var(--ink); border-radius: var(--radius);
+  cursor: pointer; box-shadow: 4px 4px 0 rgba(26,18,8,0.15);
+  transition: all 0.15s; text-decoration: none; display: inline-block;
+}
+.btn-outline:hover { background: var(--ink); color: var(--yellow); transform: translate(-2px,-2px); }
+
+/* Hero stats strip */
+.hero-stats-strip {
+  display: flex; gap: 0;
+  border: 2px solid var(--ink); border-radius: var(--radius-lg);
+  overflow: hidden; margin-top: 2.5rem;
+  background: var(--ink); max-width: 420px;
+}
+.hstat {
+  flex: 1; padding: 0.75rem 1rem; text-align: center;
+  border-right: 2px solid rgba(255,251,245,0.1);
+}
+.hstat:last-child { border-right: none; }
+.hstat-num { font-family: var(--display); font-size: 1.2rem; font-weight: 900; color: var(--yellow); display: block; }
+.hstat-label { font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,251,245,0.5); }
+
+/* Hero right — floating cards */
+.hero-cards {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  position: relative;
+}
+.hero-float-card {
+  background: var(--cream); border: 2px solid var(--ink);
+  border-radius: var(--radius-lg);
+  padding: 1rem; text-align: center;
+  box-shadow: 4px 4px 0 var(--ink);
+  min-width: 100px;
+}
+.hero-float-card:nth-child(2) { margin-top: 18px; }
+.hero-float-card:nth-child(4) { margin-top: -18px; }
+.hfc-icon { font-size: 1.8rem; display: block; margin-bottom: 0.3rem; }
+.hfc-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted2); }
+
+/* ── TICKER ── */
+.ticker {
+  background: var(--ink); border-bottom: 2px solid var(--orange);
+  padding: 0.7rem 0; overflow: hidden;
+}
+.ticker-inner { display: flex; gap: 2.5rem; animation: scroll 22s linear infinite; white-space: nowrap; }
+@keyframes scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.ticker-item { font-family: var(--display); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--yellow); flex-shrink: 0; }
+.ticker-dot { color: var(--orange); margin-right: 0.5rem; }
+
+/* ── SECTION COMMON ── */
+section { padding: 5rem 2.5rem; }
+.section-header { margin-bottom: 3rem; }
+.section-label {
+  font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 700; color: var(--orange);
+  display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem;
+}
+.section-label::before { content:''; display:inline-block; width:20px; height:2px; background:var(--orange); }
+.section-title {
+  font-family: var(--display); font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 900; letter-spacing: -0.02em; line-height: 1.15;
+}
+.section-title em { color: var(--orange); font-style: normal; }
+
+/* ── CATALOG SECTION ── */
+#catalog { padding: 3rem 2.5rem 1.5rem; }
+.catalog-controls {
+  display: flex; justify-content: space-between;
+  align-items: flex-end; flex-wrap: wrap; gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.status-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.spill {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.4rem 1rem; border-radius: 99px;
+  border: 2px solid var(--ink); cursor: pointer;
+  background: transparent; color: var(--muted2);
+  font-family: var(--body); transition: all 0.15s;
+  box-shadow: 2px 2px 0 var(--border-dark);
+}
+.spill:hover { background: var(--warm-mid); }
+.spill.active-all     { background: var(--ink); color: var(--yellow); }
+.spill.active-available { background: var(--teal); color: #fff; border-color: var(--ink); }
+.spill.active-soon    { background: var(--orange); color: #fff; border-color: var(--ink); }
+.spill.active-future  { background: var(--purple); color: #fff; border-color: var(--ink); }
+
+/* ── LAYOUT ── */
+.catalog-layout {
+  display: grid; grid-template-columns: 250px 1fr; gap: 0;
+  border: 2px solid var(--ink); border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  background: var(--paper);
+  border-right: 2px solid var(--ink);
+  padding: 1.5rem 0;
+  position: sticky; top: 65px;
+  height: calc(100vh - 65px);
+  overflow-y: auto;
+}
+.sidebar::-webkit-scrollbar { width: 2px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--orange); }
+.sb-section-label {
+  font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 700; color: var(--muted);
+  padding: 0.4rem 1.25rem 0.3rem;
+}
+.cat-btn {
+  display: flex; justify-content: space-between; align-items: center;
+  width: 100%; padding: 0.6rem 1.25rem;
+  background: transparent; border: none; cursor: pointer;
+  font-family: var(--body); font-size: 0.82rem; font-weight: 500;
+  color: var(--muted2); transition: all 0.12s; text-align: left;
+  border-left: 3px solid transparent;
+}
+.cat-btn:hover { background: var(--warm-mid); color: var(--ink); border-left-color: rgba(255,107,43,0.4); }
+.cat-btn.active { background: var(--orange); color: #fff; border-left-color: var(--ink); font-weight: 700; }
+.cat-count {
+  font-size: 0.62rem; padding: 2px 8px; border-radius: 99px;
+  background: rgba(26,18,8,0.08); color: var(--muted2); font-weight: 700;
+}
+.cat-btn.active .cat-count { background: rgba(255,255,255,0.25); color: #fff; }
+.sb-divider { height: 2px; background: var(--border); margin: 1rem 1.25rem; }
+
+/* ── MAIN ── */
+.catalog-main {
+  background: var(--cream); padding: 2rem;
+}
+.cat-heading-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1.75rem; flex-wrap: wrap; gap: 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px dashed var(--border-dark);
+}
+.cat-heading-bar h2 {
+  font-family: var(--display); font-size: 1.3rem; font-weight: 900;
+  letter-spacing: -0.01em;
+}
+.cat-heading-bar p { font-size: 0.78rem; color: var(--muted); font-style: italic; }
+
+/* ── PRODUCT GRID ── */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+  gap: 1.25rem;
+}
+
+/* ── PRODUCT CARD ── */
+.product-card {
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-lg);
+  overflow: hidden; cursor: pointer;
+  box-shadow: 4px 4px 0 rgba(26,18,8,0.12);
+  transition: transform 0.18s, box-shadow 0.18s;
+  animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+  position: relative;
+}
+.product-card:hover {
+  transform: translate(-3px,-3px);
+  box-shadow: 7px 7px 0 rgba(26,18,8,0.18);
+}
+@keyframes popIn { from{opacity:0;transform:scale(0.9) translateY(12px)} to{opacity:1;transform:scale(1) translateY(0)} }
+
+.product-img {
+  height: 160px; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3.5rem;
+  border-bottom: 2px solid var(--ink);
+  /* Category color backgrounds set per card via JS */
+}
+/* Add your product photo — replace the emoji with:
+   <img src="YOUR_IMAGE_URL" style="width:100%;height:100%;object-fit:cover;"> */
+
+.product-status-tag {
+  position: absolute; top: 8px; left: 8px;
+  font-size: 0.58rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 99px; border: 1.5px solid var(--ink);
+}
+.st-available { background: var(--teal); color: #fff; }
+.st-soon      { background: var(--orange); color: #fff; }
+.st-future    { background: var(--purple); color: #fff; }
+
+/* Mechanical gear watermark on card */
+.card-gear {
+  position: absolute; bottom: -8px; right: -4px;
+  font-size: 3.5rem; opacity: 0.06; pointer-events: none;
+  line-height: 1;
+}
+
+.product-body { padding: 0.9rem; }
+.product-cat {
+  font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 800; margin-bottom: 0.25rem;
+}
+.product-name {
+  font-family: var(--display); font-size: 0.82rem; font-weight: 700;
+  letter-spacing: -0.01em; line-height: 1.25; margin-bottom: 0.3rem;
+}
+.product-desc {
+  font-size: 0.72rem; color: var(--muted); line-height: 1.5;
+  margin-bottom: 0.75rem; font-weight: 400;
+}
+.product-footer { display: flex; justify-content: space-between; align-items: center; }
+.product-price {
+  font-family: var(--display); font-size: 0.78rem; font-weight: 900; color: var(--ink);
+}
+.card-btn {
+  font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.35rem 0.8rem;
+  border: 1.5px solid var(--ink); border-radius: 99px;
+  cursor: pointer; font-family: var(--body);
+  transition: all 0.12s;
+}
+.card-btn-green { background: var(--teal); color: #fff; }
+.card-btn-green:hover { background: #00a88f; }
+.card-btn-orange { background: transparent; color: var(--orange); border-color: var(--orange); cursor: default; }
+.card-btn-purple { background: transparent; color: var(--purple); border-color: var(--purple); cursor: default; }
+
+/* Cat accent colors */
+.bg-yellow  { background: #FFF8D6; }
+.bg-orange  { background: #FFF0E8; }
+.bg-teal    { background: #E0FAF6; }
+.bg-purple  { background: #F0EAF8; }
+.bg-red     { background: #FFE8EC; }
+.bg-green   { background: #E8F8F0; }
+.bg-blue    { background: #E8F0FF; }
+.bg-pink    { background: #FFE8F5; }
+
+.cat-color-keychains    { color: var(--orange); }
+.cat-color-tags         { color: var(--teal); }
+.cat-color-lithophane   { color: var(--purple); }
+.cat-color-home         { color: #C47A00; }
+.cat-color-decor        { color: var(--red); }
+.cat-color-wall         { color: #1A8CFF; }
+.cat-color-desk         { color: var(--steel); }
+.cat-color-collectibles { color: #C4186C; }
+
+/* Empty */
+.empty-state { text-align: center; padding: 4rem 2rem; color: var(--muted); grid-column: 1/-1; }
+.empty-state .eicon { font-size: 3.5rem; margin-bottom: 1rem; }
+.empty-state h3 { font-family: var(--display); font-size: 1.1rem; color: var(--ink); margin-bottom: 0.5rem; }
+
+/* ── PROCESS ── */
+.process { background: var(--ink); border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+.process .section-label { color: var(--yellow); }
+.process .section-label::before { background: var(--yellow); }
+.process .section-title { color: var(--cream); }
+.process .section-title em { color: var(--yellow); }
+.process-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0; margin-top: 2.5rem;
+  border: 2px solid rgba(255,251,245,0.1);
+  border-radius: var(--radius-lg); overflow: hidden;
+}
+.pstep {
+  padding: 2rem 1.5rem;
+  border-right: 2px solid rgba(255,251,245,0.08);
+  position: relative; transition: background 0.2s;
+}
+.pstep:last-child { border-right: none; }
+.pstep:hover { background: rgba(255,215,61,0.06); }
+.pstep-num {
+  font-family: var(--display); font-size: 3rem; font-weight: 900;
+  color: rgba(255,215,61,0.12); line-height: 1; margin-bottom: 0.5rem;
+}
+.pstep-icon { font-size: 1.75rem; margin-bottom: 0.5rem; display: block; }
+.pstep-title { font-family: var(--display); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; color: var(--yellow); margin-bottom: 0.4rem; }
+.pstep-desc { font-size: 0.78rem; color: rgba(255,251,245,0.5); line-height: 1.6; font-weight: 300; }
+
+/* ── CONTACT ── */
+.contact-wrap {
+  background: var(--paper);
+  border-top: 2px solid var(--ink);
+  padding: 5rem 2.5rem;
+}
+.contact-inner {
+  max-width: 640px; margin: 0 auto; text-align: center;
+}
+.contact-inner h3 {
+  font-family: var(--display); font-size: clamp(1.6rem,4vw,2.5rem);
+  font-weight: 900; letter-spacing: -0.02em; margin-bottom: 0.75rem;
+}
+.contact-inner h3 span { color: var(--orange); }
+.contact-inner p { color: var(--muted2); font-style: italic; margin-bottom: 2rem; }
+.contact-cards { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.ccard {
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  padding: 1.25rem 1.5rem; min-width: 130px;
+  background: #fff; border: 2px solid var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: 4px 4px 0 var(--ink);
+  text-decoration: none; color: var(--ink);
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  transition: all 0.15s;
+}
+.ccard:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
+.ccard-icon { font-size: 1.75rem; }
+.ccard-label { font-family: var(--display); font-size: 0.7rem; font-weight: 700; }
+.ccard-sub { font-size: 0.62rem; color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; font-style: italic; }
+.ccard-wa  { background: #E7FAF0; }
+.ccard-ig  { background: #FFF0F8; }
+.ccard-mail{ background: #FFF8E0; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink); color: var(--cream);
+  border-top: 2px solid var(--orange);
+  padding: 1.75rem 2.5rem;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+}
+.footer-logo { font-family: var(--display); font-size: 1rem; font-weight: 900; letter-spacing: 0.08em; }
+.footer-logo span { color: var(--orange); }
+.footer-tag { font-size: 0.62rem; color: rgba(255,251,245,0.4); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 3px; }
+.footer-right { font-size: 0.72rem; color: rgba(255,251,245,0.4); text-align: right; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(26,18,8,0.6);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--cream); border: 2px solid var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: 8px 8px 0 var(--ink);
+  max-width: 500px; width: 100%;
+  max-height: 92vh; overflow-y: auto;
+  transform: scale(0.93) translateY(12px); transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
+}
+.modal-overlay.open .modal { transform: scale(1) translateY(0); }
+.modal-img {
+  height: 200px; border-bottom: 2px solid var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5rem; position: relative;
+}
+.modal-x {
+  position: absolute; top: 10px; right: 10px;
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 2px solid var(--ink); background: #fff;
+  font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; transition: all 0.15s; box-shadow: 2px 2px 0 var(--ink);
+}
+.modal-x:hover { background: var(--orange); color: #fff; }
+.modal-body { padding: 1.75rem; }
+.modal-cat { font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 800; margin-bottom: 0.3rem; }
+.modal-name { font-family: var(--display); font-size: 1.4rem; font-weight: 900; letter-spacing: -0.01em; margin-bottom: 0.75rem; }
+.modal-status { display: inline-block; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 10px; border-radius: 99px; border: 1.5px solid var(--ink); margin-bottom: 1rem; }
+.modal-desc { color: var(--muted2); line-height: 1.8; font-size: 0.88rem; margin-bottom: 1.25rem; }
+.modal-price { font-family: var(--display); font-size: 1.2rem; font-weight: 900; margin-bottom: 1.5rem; }
+.modal-actions { display: flex; gap: 0.75rem; }
+.modal-cta {
+  flex: 1; padding: 0.85rem;
+  background: var(--orange); color: #fff;
+  border: 2px solid var(--ink); border-radius: var(--radius);
+  font-family: var(--body); font-size: 0.78rem; font-weight: 800;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer; box-shadow: 3px 3px 0 var(--ink); transition: all 0.15s;
+}
+.modal-cta:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--ink); }
+.modal-cancel {
+  padding: 0.85rem 1.25rem; background: transparent; color: var(--muted2);
+  border: 2px solid var(--border-dark); border-radius: var(--radius);
+  cursor: pointer; font-size: 0.78rem; font-family: var(--body); transition: all 0.15s;
+}
+.modal-cancel:hover { border-color: var(--ink); color: var(--ink); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  nav { padding: 0.8rem 1.25rem; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; padding: 3rem 1.25rem; }
+  .hero-cards { display: none; }
+  .catalog-layout { grid-template-columns: 1fr; border-radius: 0; }
+  .sidebar { position: static; height: auto; overflow: visible; border-right: none; border-bottom: 2px solid var(--ink); padding: 1rem 1.25rem; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .sb-section-label, .sb-divider { display: none; }
+  .cat-btn { width: auto; border-radius: 99px; border: 2px solid var(--border-dark); padding: 0.35rem 0.9rem; border-left: 2px solid var(--border-dark); font-size: 0.75rem; }
+  .cat-btn.active { border-left-color: var(--ink); }
+  section { padding: 3.5rem 1.25rem; }
+  #catalog { padding: 2rem 1.25rem 1rem; }
+  .catalog-main { padding: 1.25rem; }
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
+  .contact-wrap { padding: 3.5rem 1.25rem; }
+  footer { padding: 1.5rem 1.25rem; }
+  .pstep { border-right: none; border-bottom: 2px solid rgba(255,251,245,0.08); }
+  .pstep:last-child { border-bottom: none; }
+}
+@media (max-width: 400px) {
+  .product-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <span class="nav-logo-name">SPLINE<span> SCALE</span></span>
+    <span class="nav-logo-tag">3D Custom Building Platform</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#catalog">Products</a></li>
+    <li><a href="#process">How It Works</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">🖨️ Get Quote</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">🔧 By Mechanical Engineers</div>
+    <h1 class="hero-title">
+      YOUR IDEA.<br>
+      <span class="accent">OUR <span class="accent2">PRINTER.</span></span><br>
+      3D MAGIC.
+    </h1>
+    <p class="hero-sub">Custom 3D printed gifts, keychains, décor, and collectibles — designed by engineers, made with passion.</p>
+    <div class="hero-actions">
+      <a href="#catalog" class="btn-solid">Browse Products</a>
+      <a href="#contact" class="btn-outline">Custom Order ↗</a>
+    </div>
+    <div class="hero-stats-strip">
+      <div class="hstat"><span class="hstat-num">30+</span><span class="hstat-label">Products</span></div>
+      <div class="hstat"><span class="hstat-num">100%</span><span class="hstat-label">Custom</span></div>
+      <div class="hstat"><span class="hstat-num">FDM</span><span class="hstat-label">+ Resin</span></div>
+      <div class="hstat"><span class="hstat-num">Mech</span><span class="hstat-label">Engineers</span></div>
+    </div>
+  </div>
+  <div class="hero-cards">
+    <div class="hero-float-card"><span class="hfc-icon">🔑</span><span class="hfc-label">Keychains</span></div>
+    <div class="hero-float-card"><span class="hfc-icon">🖼️</span><span class="hfc-label">Lithophane</span></div>
+    <div class="hero-float-card"><span class="hfc-icon">🦸</span><span class="hfc-label">Collectibles</span></div>
+    <div class="hero-float-card"><span class="hfc-icon">🏠</span><span class="hfc-label">Nameplates</span></div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker"></div>
+</div>
+
+<!-- CATALOG SECTION -->
+<div id="catalog">
+  <div style="padding: 3rem 2.5rem 0;">
+    <div class="section-header">
+      <span class="section-label">Product Catalog</span>
+      <h2 class="section-title">Everything We <em>Print</em></h2>
+    </div>
+    <div class="catalog-controls">
+      <div class="status-pills" id="status-pills">
+        <button class="spill active-all" data-s="all">All Products</button>
+        <button class="spill" data-s="available">✅ Available Now</button>
+        <button class="spill" data-s="soon">🔶 Coming Soon</button>
+        <button class="spill" data-s="future">🔲 Future Plans</button>
+      </div>
+    </div>
+  </div>
+  <div style="padding: 0 2.5rem 3rem;">
+    <div class="catalog-layout">
+      <aside class="sidebar" id="sidebar"></aside>
+      <main class="catalog-main">
+        <div class="cat-heading-bar">
+          <div>
+            <h2 id="cat-title">All Products</h2>
+          </div>
+          <p id="cat-sub">30 products</p>
+        </div>
+        <div class="product-grid" id="grid"></div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="section-header">
+    <span class="section-label">How It Works</span>
+    <h2 class="section-title">Idea → Design → <em>Print</em> → You</h2>
+  </div>
+  <div class="process-grid">
+    <div class="pstep">
+      <div class="pstep-num">01</div>
+      <span class="pstep-icon">💬</span>
+      <div class="pstep-title">Share Your Idea</div>
+      <div class="pstep-desc">DM us on Instagram or WhatsApp. Tell us what you want — reference image, text, or just a concept.</div>
+    </div>
+    <div class="pstep">
+      <div class="pstep-num">02</div>
+      <span class="pstep-icon">📐</span>
+      <div class="pstep-title">CAD Modelling</div>
+      <div class="pstep-desc">Our mechanical engineers model your design in 3D CAD with precision tolerances and clean geometry.</div>
+    </div>
+    <div class="pstep">
+      <div class="pstep-num">03</div>
+      <span class="pstep-icon">⚙️</span>
+      <div class="pstep-title">Slice & Print</div>
+      <div class="pstep-desc">We slice, set optimal parameters, and print on FDM or resin printers — quality checked at every layer.</div>
+    </div>
+    <div class="pstep">
+      <div class="pstep-num">04</div>
+      <span class="pstep-icon">✨</span>
+      <div class="pstep-title">Post-process & Ship</div>
+      <div class="pstep-desc">Sanded, painted, or assembled as needed — then packed and delivered right to you.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-wrap" id="contact">
+  <div class="contact-inner">
+    <div class="section-header" style="text-align:center">
+      <span class="section-label" style="justify-content:center">Get In Touch</span>
+      <h3>Got an idea? <span>Let's print it.</span></h3>
+      <p style="margin-top:0.5rem">Custom orders welcome — any shape, any size, any vibe.</p>
+    </div>
+    <div class="contact-cards">
+      <!-- REPLACE links with your actual contacts -->
+      <a href="https://wa.me/91XXXXXXXXXX" class="ccard ccard-wa" target="_blank">
+        <span class="ccard-icon">📱</span>
+        <span class="ccard-label">WhatsApp</span>
+        <span class="ccard-sub">Fastest response</span>
+      </a>
+      <a href="https://instagram.com/splinescale" class="ccard ccard-ig" target="_blank">
+        <span class="ccard-icon">📸</span>
+        <span class="ccard-label">Instagram</span>
+        <span class="ccard-sub">@splinescale</span>
+      </a>
+      <a href="mailto:splinescale@gmail.com" class="ccard ccard-mail">
+        <span class="ccard-icon">✉️</span>
+        <span class="ccard-label">Email</span>
+        <span class="ccard-sub">splinescale@gmail.com</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">SPLINE<span> SCALE</span></div>
+    <div class="footer-tag">3D Custom Building Platform · Mechanical Engineers</div>
+  </div>
+  <div class="footer-right">© 2025 Spline Scale. All rights reserved.<br>Made with ⚙️ and a 3D printer.</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-img" id="m-img">
+      <button class="modal-x" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-cat" id="m-cat"></p>
+      <h2 class="modal-name" id="m-name"></h2>
+      <span class="modal-status" id="m-status"></span>
+      <p class="modal-desc" id="m-desc"></p>
+      <p class="modal-price" id="m-price"></p>
+      <div class="modal-actions">
+        <button class="modal-cta" id="m-cta">📱 Order on WhatsApp</button>
+        <button class="modal-cancel" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+// To add a real photo: replace the emoji string with a full image URL
+// Example: emoji: "https://i.imgur.com/yourimage.jpg"
+
+const CATS = [
+  { id:"all",         icon:"◈", label:"All Products" },
+  { id:"keychains",   icon:"🔑", label:"Key Chains",       bg:"bg-orange", cc:"cat-color-keychains" },
+  { id:"tags",        icon:"🐾", label:"Tags & Stamps",     bg:"bg-teal",   cc:"cat-color-tags" },
+  { id:"lithophane",  icon:"🖼️", label:"Lithophane",        bg:"bg-purple", cc:"cat-color-lithophane" },
+  { id:"home",        icon:"🏠", label:"Home & Nameplates", bg:"bg-yellow", cc:"cat-color-home" },
+  { id:"decor",       icon:"🙏", label:"Décor & Figures",   bg:"bg-red",    cc:"cat-color-decor" },
+  { id:"wall",        icon:"🚗", label:"Wall Art",           bg:"bg-blue",   cc:"cat-color-wall" },
+  { id:"desk",        icon:"💻", label:"Desk & Tech",        bg:"bg-green",  cc:"cat-color-desk" },
+  { id:"collectibles",icon:"🦸", label:"Collectibles",       bg:"bg-pink",   cc:"cat-color-collectibles" },
+];
+const catMap = Object.fromEntries(CATS.filter(c=>c.id!=='all').map(c=>[c.id,c]));
+
+const products = [
+  // ── AVAILABLE NOW ──
+  { id:1,  name:"Custom Keychain",      cat:"keychains",   emoji:"🔑", status:"available", price:"₹99–₹199",  desc:"Any shape, any text, any logo — 3D printed keychain made just for you." },
+  { id:2,  name:"IPL Team Keychain",    cat:"keychains",   emoji:"🏏", status:"available", price:"₹149",      desc:"Show your IPL squad spirit! All team crests available in vivid 3D." },
+  { id:3,  name:"Pet ID Tag",           cat:"tags",        emoji:"🐾", status:"available", price:"₹99–₹149",  desc:"Custom pet tag with name, number & cute design. Lightweight, durable, adorable." },
+  { id:4,  name:"House Nameplate",      cat:"home",        emoji:"🏠", status:"available", price:"₹299–₹799", desc:"Custom 3D house name plate — any font, any finish. Indoor & outdoor grade." },
+  { id:5,  name:"God Figurine / Décor", cat:"decor",       emoji:"🙏", status:"available", price:"₹199–₹999", desc:"Ganesha, Om, temple décor and more. Custom devotional items crafted with care." },
+  { id:6,  name:"Lithophane Frame",     cat:"lithophane",  emoji:"🖼️", status:"available", price:"₹399–₹799", desc:"Your favourite photo turned into a glowing lithophane. Magical when backlit." },
+  { id:7,  name:"Lithophane Keychain",  cat:"lithophane",  emoji:"🌟", status:"available", price:"₹249",      desc:"Carry a glowing photo memory as a keychain. Personal & unique gift idea." },
+
+  // ── COMING SOON ──
+  { id:8,  name:"Couple Keychains",     cat:"keychains",   emoji:"💑", status:"soon", price:"₹249/pair", desc:"Matching interlocking couple keychains — heart split, name pair, and more." },
+  { id:9,  name:"Keychain Hanger",      cat:"keychains",   emoji:"🪝", status:"soon", price:"₹199–₹399", desc:"Wall-mounted keychain holder with slots. Organise & display your collection." },
+  { id:10, name:"Phone Stand",          cat:"desk",        emoji:"📱", status:"soon", price:"Coming Soon", desc:"Adjustable 3D printed phone stand. Multiple angles, minimal footprint, desk-perfect." },
+  { id:11, name:"Laptop Riser",         cat:"desk",        emoji:"💻", status:"soon", price:"Coming Soon", desc:"Ergonomic laptop riser with lattice structure — light, strong, and posture-friendly." },
+  { id:12, name:"Headset Organizer",    cat:"desk",        emoji:"🎧", status:"soon", price:"Coming Soon", desc:"Desk or wall headset hanger with clean cable management built in." },
+  { id:13, name:"Wireless Charging Pad",cat:"desk",        emoji:"⚡", status:"soon", price:"Coming Soon", desc:"Custom printed enclosure and stand for wireless charging pads. Any shape." },
+  { id:14, name:"Moon Globe",           cat:"decor",       emoji:"🌕", status:"soon", price:"Coming Soon", desc:"Detailed accurate moon surface globe. LED-compatible. Perfect shelf piece." },
+  { id:15, name:"Wall Clock",           cat:"decor",       emoji:"🕐", status:"soon", price:"Coming Soon", desc:"Custom 3D printed wall clock frame — geometric, themed, or minimal." },
+  { id:16, name:"Shadow Characters",    cat:"decor",       emoji:"👤", status:"soon", price:"Coming Soon", desc:"3D art that casts creative character silhouettes when lit from the right angle." },
+  { id:17, name:"Camera Décor Piece",   cat:"decor",       emoji:"📷", status:"soon", price:"Coming Soon", desc:"Decorative vintage-style camera replica. For photographers and room aesthetics." },
+  { id:18, name:"Marvel — Hulk",        cat:"collectibles",emoji:"💚", status:"soon", price:"Coming Soon", desc:"Precision-printed Hulk figurine. More Marvel heroes being modelled — stay tuned." },
+  { id:19, name:"Marvel Characters",    cat:"collectibles",emoji:"🦸", status:"soon", price:"Coming Soon", desc:"Iron Man, Spider-Man, Thor and more. Full Marvel range in development." },
+  { id:20, name:"Wall Art — Cars",      cat:"wall",        emoji:"🚗", status:"soon", price:"Coming Soon", desc:"2D silhouette wall art of iconic cars. Flush wall mount, custom colour." },
+  { id:21, name:"Wall Art — Bikes",     cat:"wall",        emoji:"🏍️", status:"soon", price:"Coming Soon", desc:"Motorcycle silhouette wall prints. Custom colour, custom size available." },
+
+  // ── FUTURE PLANS ──
+  { id:22, name:"Anime Figurines",      cat:"collectibles",emoji:"⛩️", status:"future", price:"Planned", desc:"Wide range of anime characters and human 3D anime figures planned." },
+  { id:23, name:"Gaming Accessories",   cat:"desk",        emoji:"🎮", status:"future", price:"Planned", desc:"Gaming-themed desk accessories, controller stands, and custom emblems." },
+  { id:24, name:"Candle Holders",       cat:"decor",       emoji:"🕯️", status:"future", price:"Planned", desc:"Geometric and floral candle holders and tealight shells." },
+  { id:25, name:"Wall Décor Panels",    cat:"wall",        emoji:"🏛️", status:"future", price:"Planned", desc:"Large-format 3D wall panels — geometric, abstract, themed patterns." },
+  { id:26, name:"Plant Pots",           cat:"home",        emoji:"🌱", status:"future", price:"Planned", desc:"Custom 3D printed plant pots and planter holders. Indoor and outdoor." },
+  { id:27, name:"Sunglass Holder",      cat:"desk",        emoji:"🕶️", status:"future", price:"Planned", desc:"Wall or desk sunglass holder. Keeps shades safe and looks great." },
+  { id:28, name:"Car Accessories",      cat:"collectibles",emoji:"🚘", status:"future", price:"Planned", desc:"Custom car interior accessories — dashboard mounts, emblems, personalised clips." },
+  { id:29, name:"Custom Stamp",         cat:"tags",        emoji:"🔖", status:"future", price:"Planned", desc:"Personalised rubber-stamp holders and custom logo stamps printed to your design." },
+  { id:30, name:"Desk Décor Set",       cat:"desk",        emoji:"🖊️", status:"future", price:"Planned", desc:"Complete engineer's desk set — pen stand, cable tidy, nameplate and more." },
+];
+
+// ── TICKER ───────────────────────────────────────────────────────────────
+const items = ['Custom Keychains','Pet Tags','Lithophane Frames','House Nameplates','Moon Globe','Marvel Figures','Wall Art','Desk Organizers','IPL Keychains','Couple Keychains','Wall Clocks','Shadow Art','3D Printing'];
+const ti = document.getElementById('ticker');
+ti.innerHTML = [...items,...items].map(i=>`<span class="ticker-item"><span class="ticker-dot">✦</span>${i}</span>`).join('');
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let activeCat = 'all';
+let activeSt  = 'all';
+
+// ── FILTERS ───────────────────────────────────────────────────────────────
+function filtered() {
+  return products.filter(p =>
+    (activeCat === 'all' || p.cat === activeCat) &&
+    (activeSt  === 'all' || p.status === activeSt)
+  );
+}
+
+// ── SIDEBAR ───────────────────────────────────────────────────────────────
+function buildSidebar() {
+  const sb = document.getElementById('sidebar');
+  const count = id => id === 'all' ? products.length : products.filter(p=>p.cat===id).length;
+  sb.innerHTML = CATS.map(c=>`
+    <button class="cat-btn ${activeCat===c.id?'active':''}" data-cat="${c.id}">
+      <span>${c.icon} ${c.label}</span>
+      <span class="cat-count">${count(c.id)}</span>
+    </button>
+    ${c.id==='all'?'<div class="sb-divider"></div><div class="sb-section-label">By category</div>':''}
+  `).join('');
+  sb.querySelectorAll('[data-cat]').forEach(b=>b.addEventListener('click',()=>{activeCat=b.dataset.cat;render();}));
+}
+
+// ── STATUS PILLS ─────────────────────────────────────────────────────────
+document.getElementById('status-pills').addEventListener('click', e=>{
+  const b = e.target.closest('.spill'); if(!b) return;
+  activeSt = b.dataset.s;
+  document.querySelectorAll('.spill').forEach(x=>x.className='spill');
+  const cls = {all:'active-all',available:'active-available',soon:'active-soon',future:'active-future'};
+  b.classList.add(cls[activeSt]);
+  render();
+});
+
+// ── STATUS TAG HTML ───────────────────────────────────────────────────────
+function stTag(s) {
+  const map = {available:['st-available','Available'],soon:['st-soon','Coming Soon'],future:['st-future','Future']};
+  const [cls,lbl] = map[s];
+  return `<span class="product-status-tag ${cls}">${lbl}</span>`;
+}
+
+// ── ACTION BUTTON ─────────────────────────────────────────────────────────
+function actionBtn(p) {
+  if (p.status==='available') return `<button class="card-btn card-btn-green" onclick="event.stopPropagation();wa('${p.name}')">Order</button>`;
+  if (p.status==='soon')      return `<button class="card-btn card-btn-orange">Soon</button>`;
+  return                              `<button class="card-btn card-btn-purple">Planned</button>`;
+}
+
+// ── IMG ELEMENT ───────────────────────────────────────────────────────────
+function imgEl(val) {
+  if (val.startsWith('http')) return `<img src="${val}" style="width:100%;height:100%;object-fit:cover;" alt="">`;
+  return val;
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────
+function render() {
+  const list = filtered();
+  const catInfo = CATS.find(c=>c.id===activeCat);
+  document.getElementById('cat-title').textContent = catInfo?.label || 'All Products';
+  document.getElementById('cat-sub').textContent = `${list.length} product${list.length!==1?'s':''}`;
+
+  const grid = document.getElementById('grid');
+  if (!list.length) {
+    grid.innerHTML = `<div class="empty-state"><div class="eicon">🔍</div><h3>Nothing here yet!</h3><p>Try a different category or filter.</p></div>`;
+  } else {
+    const bg = (cat) => catMap[cat]?.bg || 'bg-yellow';
+    const cc = (cat) => catMap[cat]?.cc || '';
+    grid.innerHTML = list.map((p,i)=>`
+      <div class="product-card" style="animation-delay:${i*0.03}s" onclick="openModal(${p.id})">
+        <div class="product-img ${bg(p.cat)}">
+          ${stTag(p.status)}
+          ${imgEl(p.emoji)}
+          <span class="card-gear">⚙️</span>
+        </div>
+        <div class="product-body">
+          <p class="product-cat ${cc(p.cat)}">${catMap[p.cat]?.label||''}</p>
+          <h3 class="product-name">${p.name}</h3>
+          <p class="product-desc">${p.desc}</p>
+          <div class="product-footer">
+            <span class="product-price">${p.price}</span>
+            ${actionBtn(p)}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+  buildSidebar();
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────────
+function openModal(id) {
+  const p = products.find(x=>x.id===id); if(!p) return;
+  const info = catMap[p.cat];
+  const mi = document.getElementById('m-img');
+  mi.className = `modal-img ${info?.bg||'bg-yellow'}`;
+  // keep the X button in there
+  mi.innerHTML = `${imgEl(p.emoji)}<button class="modal-x" onclick="closeModal()">✕</button>`;
+  document.getElementById('m-cat').textContent = info?.label||'';
+  document.getElementById('m-cat').className = `modal-cat ${info?.cc||''}`;
+  document.getElementById('m-name').textContent = p.name;
+  document.getElementById('m-desc').textContent = p.desc;
+  document.getElementById('m-price').textContent = p.price;
+  const stEl = document.getElementById('m-status');
+  const stMap = {available:['st-available','✅ Available Now'],soon:['st-soon','🔶 Coming Soon'],future:['st-future','🔲 Future Plan']};
+  const [cls,lbl] = stMap[p.status];
+  stEl.className=`modal-status ${cls}`; stEl.textContent=lbl;
+  const cta = document.getElementById('m-cta');
+  if (p.status==='available') { cta.textContent='📱 Order on WhatsApp'; cta.onclick=()=>wa(p.name); cta.style.opacity='1'; }
+  else { cta.textContent='🔔 Notify Me'; cta.onclick=()=>alert('Follow @splinescale on Instagram for launch updates!'); cta.style.opacity='0.75'; }
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+document.getElementById('modal-overlay').addEventListener('click', e=>{ if(e.target===e.currentTarget) closeModal(); });
+
+// REPLACE 91XXXXXXXXXX with your WhatsApp number e.g. 919876543210
+function wa(name) {
+  const msg = encodeURIComponent(`Hi Spline Scale! 👋 I'd like to order: *${name}*. Please share details and pricing.`);
+  window.open(`https://wa.me/91XXXXXXXXXX?text=${msg}`, '_blank');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
